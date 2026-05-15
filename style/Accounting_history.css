@@ -1,0 +1,168 @@
+/* =========================================
+   リセット・共通設定
+========================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #d7e9c6; /* 他の画面と同じ薄い緑色 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* =========================================
+   メインコンテナ (白い枠)
+========================================= */
+.main-container {
+    width: 800px;
+    height: 500px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 30px 40px; /* 上下左右の余白 */
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    
+    /* 縦方向に要素を並べる設定 */
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
+   上部セクション (戻るボタンと検索)
+========================================= */
+/* =========================================
+   上部セクション (戻るボタンと検索)
+========================================= */
+.top-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative; /* 子要素のabsolute配置の基準にする */
+    min-height: 40px; 
+}
+
+/* 左上の「戻る」ボタン (stock_selectの形に統一) */
+.btn-back {
+    position: absolute; /* 位置を固定 */
+    top: 0;
+    left: 0;
+    display: inline-block;
+    background-color: #ffffff;
+    color: #146c36;
+    border: 1px solid #146c36;
+    padding: 8px 25px;
+    text-decoration: none;
+    border-radius: 4px; /* 円形から角丸(4px)へ変更 */
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-back:hover {
+    background-color: #eef7f1;
+}
+
+/* 検索エリア (中央配置) */
+.search-container {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.search-input {
+    width: 350px;
+    height: 40px;
+    padding: 0 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px; /* 左側の角だけ丸める */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #999;
+}
+
+.btn-search {
+    width: 100px;
+    height: 40px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-left: none; /* 入力欄と境界線が重ならないようにする */
+    border-radius: 0 4px 4px 0; /* 右側の角だけ丸める */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-search:hover {
+    background-color: #e0e0e0;
+}
+
+/* =========================================
+   中央セクション (履歴テーブル)
+========================================= */
+.table-container {
+    flex-grow: 1; /* 縦の余ったスペースをすべてテーブルエリアに充てる */
+    overflow-y: auto; /* データが増えたらスクロールさせる */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse; /* セルの隙間をなくす */
+    text-align: center;
+}
+
+.history-table th,
+.history-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* テーブルの見出し部分 */
+.history-table th {
+    background-color: #f9f9f9;
+    position: sticky; /* スクロールしてもヘッダーが見えるように固定 */
+    top: 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.history-table td {
+    color: #555;
+}
+
+/* =========================================
+   下部セクション (詳細履歴ボタン)
+========================================= */
+.bottom-section {
+    display: flex;
+    justify-content: flex-end; /* 右端に寄せる */
+}
+
+.btn-detail {
+    width: 180px;
+    height: 60px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px; /* in_out_updt.css と同じ角丸設定 */
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-detail:hover {
+    background-color: #f9f9f9;
+    border-color: #999;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}

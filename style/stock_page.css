@@ -1,0 +1,137 @@
+/* =========================================
+   リセット・共通設定
+========================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #d7e9c6; /* 共通の薄い緑色 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* =========================================
+   メインコンテナ (白い枠)
+========================================= */
+.main-container {
+    width: 800px;
+    height: 500px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 30px 40px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    
+    /* 縦方向に要素を並べる */
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
+   上部セクション (戻るボタンと検索)
+========================================= */
+.top-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative; 
+    min-height: 40px; 
+}
+
+/* 左上の「戻る」ボタン (角丸長方形に統一) */
+.btn-back {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    display: inline-block;
+    background-color: #ffffff;
+    color: #146c36; /* 濃い緑色 */
+    border: 1px solid #146c36;
+    padding: 8px 25px;
+    text-decoration: none;
+    border-radius: 4px; /* 角丸設定 */
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    z-index: 10; /* 検索バーより手前に表示 */
+}
+
+.btn-back:hover {
+    background-color: #eef7f1;
+}
+
+/* 検索エリア */
+.search-container {
+    display: flex;
+    flex-grow: 1; 
+    justify-content: center; 
+}
+
+.search-input {
+    width: 350px;
+    height: 40px;
+    padding: 0 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px; /* 左側の角だけ丸める */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #999;
+}
+
+.btn-search {
+    width: 100px;
+    height: 40px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-left: none; /* 入力欄と境界線が重ならないようにする */
+    border-radius: 0 4px 4px 0; /* 右側の角だけ丸める */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-search:hover {
+    background-color: #e0e0e0;
+}
+
+/* =========================================
+   中央セクション (在庫テーブル)
+========================================= */
+.table-container {
+    flex-grow: 1; /* 余白をすべてテーブルエリアに */
+    overflow-y: auto; /* データが多い場合はスクロール */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.stock-table {
+    width: 100%;
+    border-collapse: collapse; 
+    text-align: center;
+}
+
+.stock-table th,
+.stock-table td {
+    border: 1px solid #ccc;
+    padding: 12px 10px; /* 少し縦の余白を広めに */
+    font-size: 16px;
+}
+
+.stock-table th {
+    background-color: #f9f9f9;
+    position: sticky; /* スクロール時にヘッダーを固定 */
+    top: 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.stock-table td {
+    color: #555;
+}

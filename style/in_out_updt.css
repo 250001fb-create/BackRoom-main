@@ -1,0 +1,85 @@
+/* =========================================
+   リセット・共通設定
+========================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #d7e9c6; /* stock_select.php と同じ薄い緑色 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* =========================================
+   メインコンテナ (白い枠)
+========================================= */
+.main-container {
+    width: 800px;
+    height: 500px;
+    background-color: #ffffff;
+    border-radius: 20px; /* stock_select.php と同じ角丸 */
+    padding: 40px;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* =========================================
+   左上の「戻る」ボタン (画像に合わせて丸く配置)
+========================================= */
+/* 左上の「戻る」ボタン (stock_selectの形に統一) */
+.btn-back {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    display: inline-block; /* flexから変更 */
+    background-color: #ffffff;
+    color: #146c36; /* 濃い緑色 */
+    border: 1px solid #146c36;
+    padding: 8px 25px; /* ボタンのサイズをパディングで調整 */
+    text-decoration: none;
+    border-radius: 4px; /* 円形(50%)から角丸(4px)へ変更 */
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-back:hover {
+    background-color: #eef7f1;
+}
+
+/* =========================================
+   中央の選択ボタン群 (登録・更新・削除)
+========================================= */
+.button-group {
+    display: flex;
+    gap: 40px; /* 3つのボタンの間の余白 */
+}
+
+.action-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 160px; /* 画像に合わせて正方形に近づける */
+    height: 160px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px; /* stock_select.php と同じ角丸設定 */
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    background-color: #f9f9f9;
+    border-color: #999;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
