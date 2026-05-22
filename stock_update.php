@@ -1,9 +1,9 @@
-<?php require_once 'db.php'; ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>在庫数変更 - バックルーム</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在庫数変更 - バックルームコンピューター</title>
     <link rel="stylesheet" href="style/stock_update.css">
 </head>
 <body>
@@ -39,8 +39,9 @@
             </div>
         </div>
     </div>
+
     <script>
-         document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function() {
             const searchBtn = document.getElementById("btn-search");
             const resultSection = document.getElementById("result-section");
             const resultBody = document.getElementById("result-body");
@@ -92,44 +93,6 @@
                 // 結果エリアを表示する
                 resultSection.classList.remove("hidden");
             });
-        });
-
-        let currentItemId = null;
-
-        document.getElementById("btn-search").addEventListener("click", async () => {
-            const id = document.getElementById("target-id").value;
-            if(!id) return alert("IDを入力してください");
-
-            // 商品情報を取得するAPI(後述のget_item.php)を叩く
-            const res = await fetch(`get_item.php?id=${id}`);
-            const data = await res.json();
-
-            if (data.success) {
-                currentItemId = id;
-                document.getElementById("res-name").textContent = data.item.item_name;
-                document.getElementById("res-stock").textContent = data.item.stock_quantity;
-                document.getElementById("result-section").classList.remove("hidden");
-            } else {
-                alert("商品が見つかりません。商品ID(1, 2...)を入力してください。");
-            }
-        });
-
-        document.getElementById("btn-update-exec").addEventListener("click", async () => {
-            const newStock = document.getElementById("new-stock").value;
-            if(newStock === "") return alert("個数を入力してください");
-
-            const res = await fetch('update_stock_exec.php', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({id: currentItemId, stock: newStock})
-            });
-            const data = await res.json();
-            if (data.success) {
-                alert("在庫数を更新しました！");
-                location.reload();
-            } else {
-                alert("更新に失敗しました: " + data.message);
-            }
         });
     </script>
 </body>

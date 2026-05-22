@@ -11,9 +11,9 @@
         <a href="menu.php" class="btn-back">戻る</a>
         
         <main class="button-group">
-            <a href="product_register.php" class="action-btn">登録</a>
-            <a href="product_update.php" class="action-btn">更新</a>
-            <a href="product_delete.php" class="action-btn">削除</a>
+            <a href="newcontent.php" class="action-btn">登録</a>
+            <a href="update.php" class="action-btn">更新</a>
+            <a href="delete.php" class="action-btn">削除</a>
         </main>
     </div>
 </body>
