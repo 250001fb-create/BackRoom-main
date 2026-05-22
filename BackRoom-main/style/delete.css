@@ -1,0 +1,205 @@
+/* =========================================
+   リセット・共通設定
+========================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #d7e9c6; /* 共通の薄い緑色 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* =========================================
+   メインコンテナ
+========================================= */
+.main-container {
+    width: 850px;
+    height: 550px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 30px 40px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
+   ヘッダーエリア（戻るボタン）
+========================================= */
+.top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    height: 40px;
+}
+
+.btn-back {
+    display: inline-block;
+    background-color: #ffffff;
+    color: #146c36;
+    border: 1px solid #146c36;
+    padding: 8px 25px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-back:hover {
+    background-color: #eef7f1;
+}
+
+/* =========================================
+   検索エリア（プルダウン ＋ 入力欄 ＋ 検索ボタン）
+========================================= */
+.search-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    align-items: center;
+    background-color: #fafafa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.search-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #ffffff;
+    outline: none;
+    min-width: 140px;
+    color: #333;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    color: #333;
+}
+
+.search-select:focus,
+.search-input:focus {
+    border-color: #146c36;
+}
+
+.btn-search {
+    background-color: #146c36;
+    color: #ffffff;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-search:hover {
+    background-color: #0f5229;
+}
+
+/* =========================================
+   商品詳細表示エリア（1行×6列の格子デザイン）
+========================================= */
+.detail-section {
+    margin-bottom: 40px;
+    flex-grow: 1;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.grid-header {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #555;
+    padding: 12px 8px;
+    text-align: center;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-size: 13px;
+}
+
+.grid-value {
+    padding: 18px 8px;
+    text-align: center;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    color: #333;
+    background-color: #ffffff;
+    font-weight: 500;
+}
+
+/* 検索前のプレースホルダーメッセージ */
+.no-data-msg {
+    text-align: center;
+    color: #888;
+    padding: 40px;
+    background-color: #fafafa;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* =========================================
+   下部：削除ボタンエリア
+========================================= */
+.bottom-section {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    margin-bottom: 10px;
+}
+
+.btn-delete {
+    width: 100%;
+    height: 65px;
+    background-color: #b33939; /* 穏やかで洗練された警告赤色 */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.btn-delete:hover {
+    background-color: #8c2626;
+}
+
+.btn-delete:active {
+    transform: scale(0.99);
+}
+
+/* まだ検索していない時はボタンを押せないようにする（親切設計） */
+.btn-delete:disabled {
+    background-color: #dddddd;
+    color: #999999;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}

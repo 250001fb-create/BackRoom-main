@@ -1,0 +1,208 @@
+/* =========================================
+   リセット・共通設定
+========================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #d7e9c6; /* 共通の薄い緑色 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* =========================================
+   メインコンテナ
+========================================= */
+.main-container {
+    width: 850px;
+    height: 550px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 30px 40px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
+   ヘッダーエリア（戻るボタン ＋ 検索バー）
+========================================= */
+.top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+    height: 40px;
+}
+
+.btn-back {
+    position: absolute;
+    left: 0;
+    background-color: #ffffff;
+    color: #146c36;
+    border: 1px solid #146c36;
+    padding: 8px 25px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-back:hover {
+    background-color: #eef7f1;
+}
+
+/* 検索バー */
+.search-container {
+    margin: 0 auto; /* 中央寄せ */
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 400px;
+}
+
+.search-container input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    text-align: center;
+}
+
+.search-container button {
+    padding: 0 25px;
+    background-color: #f9f9f9;
+    border: none;
+    border-left: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.search-container button:hover {
+    background-color: #e0e0e0;
+}
+
+/* =========================================
+   期間選択ボタン群 (横並びのタブ)
+========================================= */
+.tab-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.tab-btn {
+    flex: 1;
+    height: 40px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    margin-left: -1px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: #333;
+}
+
+.tab-btn:first-child { margin-left: 0; border-radius: 4px 0 0 4px; }
+.tab-btn:last-child { border-radius: 0 4px 4px 0; }
+.tab-btn:hover { background-color: #e0e0e0; }
+
+.tab-btn.active {
+    background-color: #ffffff;
+    font-weight: bold;
+    color: #146c36;
+    border-bottom: 2px solid #146c36;
+}
+
+/* =========================================
+   メインコンテンツエリア（左右カラムレイアウト）
+========================================= */
+.content-columns {
+    display: flex;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.column-left, .column-right {
+    flex: 1; /* 左右の幅を半分ずつにする */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 右カラム内のカードの間隔 */
+.column-right {
+    gap: 20px;
+}
+
+/* データ枠共通設定 */
+.data-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fafafa;
+}
+
+/* 左側の大きなカード */
+.data-card.large-card {
+    flex-grow: 1; /* 高さいっぱいに広げる */
+    margin-bottom: 10px;
+}
+
+/* 右側の小さなカード */
+.data-card.small-card {
+    flex: 1; /* 縦に2つ均等に配置 */
+}
+
+.data-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: #555;
+    font-weight: normal;
+}
+
+.data-value {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #333;
+}
+
+.data-list {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.data-list p {
+    margin: 5px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+/* 左下のリンク */
+.other-search-link {
+    display: inline-block;
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    align-self: center; /* 左カラムの中で中央寄せ */
+    margin-top: 5px;
+}
+
+.other-search-link:hover {
+    color: #146c36;
+    text-decoration: underline;
+}
