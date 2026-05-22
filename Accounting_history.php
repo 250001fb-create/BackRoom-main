@@ -14,6 +14,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>会計履歴 - バックルーム</title>
+    <link rel="stylesheet" href="style/common.css">
     <link rel="stylesheet" href="style/Accounting_history.css">
 </head>
 <body>

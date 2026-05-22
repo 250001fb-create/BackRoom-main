@@ -59,6 +59,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>売上情報 - バックルーム</title>
+    <link rel="stylesheet" href="style/common.css">
     <link rel="stylesheet" href="style/sales.css">
     <style>
         /* 選択中のタブを強調するスタイル */

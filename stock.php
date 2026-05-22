@@ -1,9 +1,31 @@
+<?php
+// 既存の接続ファイルを読み込みます
+require_once 'db.php';
+
+// 検索された商品IDを取得
+$search_id = isset($_GET['search_id']) ? trim($_GET['search_id']) : '';
+
+try {
+    if ($search_id !== '') {
+        // 商品IDが入力されている場合は、その商品だけを検索
+        $stmt = $pdo->prepare('SELECT * FROM items WHERE item_id = :item_id');
+        $stmt->execute(['item_id' => $search_id]);
+    } else {
+        // 入力されていない場合は全件表示
+        $stmt = $pdo->query('SELECT * FROM items');
+    }
+    $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    exit('データ取得失敗: ' . $e->getMessage());
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>在庫確認 - バックルームコンピューター</title>
+    <link rel="stylesheet" href="style/common.css">
     <link rel="stylesheet" href="style/stock_page.css">
 </head>
 <body>
@@ -11,10 +33,10 @@
         <div class="top-section">
             <a href="stock_select.php" class="btn-back">戻る</a>
             
-            <div class="search-container">
-                <input type="text" placeholder="商品IDの入力" class="search-input">
-                <button class="btn-search">検索</button>
-            </div>
+            <form action="stock.php" method="GET" class="search-container">
+                <input type="text" name="search_id" value="<?php echo htmlspecialchars($search_id, ENT_QUOTES, 'UTF-8'); ?>" placeholder="商品IDの入力" class="search-input">
+                <button type="submit" class="btn-search">検索</button>
+            </form>
         </div>
         
         <div class="table-container">
@@ -28,36 +50,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>商品A</td>
-                        <td>10001</td>
-                        <td>50</td>
-                        <td>食品</td>
-                    </tr>
-                    <tr>
-                        <td>商品B</td>
-                        <td>10002</td>
-                        <td>20</td>
-                        <td>日用品</td>
-                    </tr>
-                    <tr>
-                        <td>商品C</td>
-                        <td>10003</td>
-                        <td>150</td>
-                        <td>飲料</td>
-                    </tr>
-                    <tr>
-                        <td>商品D</td>
-                        <td>10004</td>
-                        <td>5</td>
-                        <td>雑貨</td>
-                    </tr>
-                    <tr>
-                        <td>商品E</td>
-                        <td>10005</td>
-                        <td>80</td>
-                        <td>食品</td>
-                    </tr>
+                    <?php if (empty($items)): ?>
+                        <tr>
+                            <td colspan="4" style="text-align: center;">該当する商品がありません。</td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($items as $item): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($item['item_name'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo htmlspecialchars($item['item_id'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo htmlspecialchars($item['stock_quantity'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo htmlspecialchars($item['category'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

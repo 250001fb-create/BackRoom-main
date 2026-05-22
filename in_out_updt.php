@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品登録・更新・削除 - バックルームコンピューター</title>
+    <link rel="stylesheet" href="style/common.css">
     <link rel="stylesheet" href="style/in_out_updt.css">
 </head>
 <body>

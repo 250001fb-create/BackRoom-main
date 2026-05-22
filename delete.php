@@ -86,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_TYPE']) && 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品削除画面 - バックルームコンピューター</title>
+    <link rel="stylesheet" href="style/common.css">
     <link rel="stylesheet" href="style/delete.css">
 </head>
 <body>

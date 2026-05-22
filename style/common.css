@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+/* =========================================
+   1. リセット・全体背景 (全画面共通)
+========================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #d7e9c6; /* システム共通の薄い緑色 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* =========================================
+   2. メインコンテナのベースデザイン (白い枠)
+   ※幅(width)や高さ(height)、padding、並び方(flex-direction)などは
+     画面ごとに少し違うため、個別のCSSに残します。
+========================================= */
+.main-container,
+.stock-container {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* =========================================
+   3. 共通ボタンデザイン：「戻る」ボタン
+========================================= */
+.btn-back {
+    display: inline-block;
+    background-color: #ffffff;
+    color: #146c36;
+    border: 1px solid #146c36;
+    padding: 8px 25px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.btn-back:hover {
+    background-color: #eef7f1;
+}
