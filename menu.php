@@ -1,3 +1,20 @@
+<?php
+// セッションの開始
+session_start();
+
+// ログインしていない（セッションに情報がない）場合は、ログイン画面へ強制リダイレクト
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header('Location: index.php');
+    exit;
+}
+
+// ブラウザのキャッシュを無効化するヘッダー（戻るボタン対策）
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+?>
+
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -13,7 +30,7 @@
     <div class="menu-container">
         <header>
             <div class="logout-area">
-                <a href="index.php" class="btn-logout">ログアウト</a>
+                <a href="logout.php" class="btn-logout">ログアウト</a>
             </div>
             <h1>バックルームコンピューター</h1>
         </header>
