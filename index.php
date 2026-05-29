@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" placeholder="社員番号" name="employee_id" class="big-input" required value="<?= htmlspecialchars($_POST['employee_id'] ?? '') ?>">
                 <input type="password" placeholder="パスワード" name="password" class="big-input" required>
                 
-                <button type="submit" class="btn-login-big" style="border: none; cursor: pointer; font-family: inherit;">ログイン</button>
+                <button type="submit" class="btn-login-big">ログイン</button>
             </form>
         </main>
     </div>
