@@ -113,15 +113,6 @@ try {
         </div>
     </div>
 
-    <script>
-        // 天気情報の取得（既存のスクリプトを継続）
-        fetch('https://www.jma.go.jp/bosai/forecast/data/forecast/140000.json')
-            .then(response => response.json())
-            .then(data => {
-                const weatherText = data[0].timeSeries[0].areas[0].weathers[0];
-                document.getElementById('weather-info').textContent = weatherText.replace(/　/g, ' ');
-            })
-            .catch(() => { document.getElementById('weather-info').textContent = 'エラー'; });
-    </script>
+    <script src="js/sales.js"></script>
 </body>
 </html>

@@ -25,31 +25,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 'item_id' => $item_id
             ]);
             
-            // 更新完了後、検索状態を維持したURLにリダイレクト（二重送信防止）
+            // 更新完了後、検索条件を維持したまま、successフラグを付けてリダイレクト
             header("Location: stock_update.php?search-type=" . urlencode($s_type) . "&search-keyword=" . urlencode($s_keyword) . "&success=1");
             exit;
         } catch (PDOException $e) {
-            exit('更新失敗: ' . $e->getMessage());
+            exit('データ更新失敗: ' . $e->getMessage());
         }
     }
 }
 
-// 【検索処理】キーワードが指定されている場合、データを取得
+// 【検索処理】キーワードが入力されている場合に実行
 if ($keyword !== '') {
-    $show_result = true;
     try {
         if ($search_type === 'id') {
-            // 商品IDで検索（完全一致）
-            $stmt = $pdo->prepare('SELECT * FROM items WHERE item_id = :id');
-            $stmt->execute(['id' => $keyword]);
+            $stmt = $pdo->prepare('SELECT * FROM items WHERE item_id = :item_id');
+            $stmt->execute(['item_id' => intval($keyword)]);
+        } elseif ($search_type === 'barcode') {
+            $stmt = $pdo->prepare('SELECT * FROM items WHERE barcode = :barcode');
+            $stmt->execute(['barcode' => $keyword]);
         } else {
-            // 商品名で検索（部分一致）
-            $stmt = $pdo->prepare('SELECT * FROM items WHERE item_name LIKE :name');
-            $stmt->execute(['name' => '%' . $keyword . '%']);
+            $stmt = $pdo->prepare('SELECT * FROM items WHERE item_name LIKE :item_name');
+            $stmt->execute(['item_name' => '%' . $keyword . '%']);
         }
         $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $show_result = true;
     } catch (PDOException $e) {
-        exit('検索失敗: ' . $e->getMessage());
+        exit('データ取得失敗: ' . $e->getMessage());
     }
 }
 ?>
@@ -64,39 +65,45 @@ if ($keyword !== '') {
 </head>
 <body>
     <div class="main-container">
-        <a href="stock_select.php" class="btn-back">戻る</a>
-
-        <div class="search-section">
-            <form action="stock_update.php" method="GET" class="search-container">
-                <select name="search-type" id="search-type" class="search-select">
-                    <option value="id" <?php echo $search_type === 'id' ? 'selected' : ''; ?>>商品ID</option>
-                    <option value="name" <?php echo $search_type === 'name' ? 'selected' : ''; ?>>商品名</option>
+        <div class="top-section">
+            <a href="stock_select.php" class="btn-back">戻る</a>
+            
+            <form action="stock_update.php" method="GET" class="search-form">
+                <select name="search-type" class="search-select">
+                    <option value="name" <?php if ($search_type === 'name') echo 'selected'; ?>>商品名</option>
+                    <option value="id" <?php if ($search_type === 'id') echo 'selected'; ?>>商品ID</option>
+                    <option value="barcode" <?php if ($search_type === 'barcode') echo 'selected'; ?>>バーコード番号</option>
                 </select>
-                <input type="text" name="search-keyword" id="search-keyword" value="<?php echo htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8'); ?>" placeholder="キーワードを入力" class="search-input" required>
-                <button type="submit" id="btn-search" class="btn-search">検索</button>
+                <input type="text" name="search-keyword" class="search-input" placeholder="検索キーワードを入力" value="<?php echo htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8'); ?>" required>
+                <button type="submit" class="btn-search">検索</button>
             </form>
         </div>
-
-        <div id="result-section" class="result-section <?php echo $show_result ? '' : 'hidden'; ?>">
+        
+        <div class="detail-section">
+            <?php if (!$show_result): ?>
+                <div class="no-data-msg">
+                    上の検索窓から商品を検索してください。ここに在庫数の変更フォームが表示されます。
+                </div>
+            <?php else: ?>
             <div class="table-container">
-                <table class="result-table">
+                <table class="stock-table">
                     <thead>
                         <tr>
                             <th>商品ID</th>
                             <th>商品名</th>
-                            <th>現在の在庫</th>
-                            <th>変更後の在庫</th>
+                            <th>現在の在庫数</th>
+                            <th>新しい在庫数</th>
                             <th>操作</th>
                         </tr>
                     </thead>
-                    <tbody id="result-body">
-                        <?php if (empty($items) && $show_result): ?>
+                    <tbody>
+                        <?php if (empty($items)): ?>
                             <tr>
-                                <td colspan="5" style="text-align: center;">該当する商品が見つかりませんでした。</td>
+                                <td colspan="5" style="text-align: center;">該当する商品がありません。</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($items as $item): ?>
-                                <form id="form-<?php echo $item['item_id']; ?>" action="stock_update.php" method="POST">
+                                <form action="stock_update.php" method="POST" id="form-<?php echo $item['item_id']; ?>">
                                     <input type="hidden" name="action" value="update">
                                     <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
                                     <input type="hidden" name="search-type" value="<?php echo htmlspecialchars($search_type, ENT_QUOTES, 'UTF-8'); ?>">
@@ -119,13 +126,10 @@ if ($keyword !== '') {
                     </tbody>
                 </table>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 
-    <?php if (isset($_GET['success']) && $_GET['success'] == '1'): ?>
-        <script>
-            alert("在庫数を更新しました");
-        </script>
-    <?php endif; ?>
+    <script src="js/stock_update.js"></script>
 </body>
 </html>
