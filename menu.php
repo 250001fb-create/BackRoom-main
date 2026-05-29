@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>バックルームコンピューター - メニュー</title>
     <link rel="stylesheet" href="style/common.css">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/menu.css">
 </head>
+
 <body>
     <div class="menu-container">
         <header>
@@ -29,7 +31,11 @@
             <a href="in_out_updt.php" class="grid-item">
                 <span class="label">商品<br>登録・更新・削除</span>
             </a>
+            <a href="staff_edit.php" class="grid-item staff-btn">
+                <span class="label">社員<br>登録・更新・削除</span>
+            </a>
         </main>
     </div>
 </body>
+
 </html>

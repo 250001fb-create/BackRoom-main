@@ -1,0 +1,68 @@
+
+/* =========================================
+   メニュー画面 (menu.php) 用スタイル
+========================================= */
+.menu-container {
+    width: 800px;
+    /* ボタンが3段になるため高さを500pxから650pxに変更しました */
+    height: 650px; 
+    /* メニュー画面もログイン画面と同じく白色の背景に設定 */
+    background-color: #ffffff; 
+    padding: 40px;
+    border: 1px solid #ccc;
+    border-radius: 20px; /* 白色の枠の角を丸める */
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* 左上のログアウトボタン */
+.btn-logout {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: inline-block;
+    background-color: #4285f4;
+    color: #ffffff;
+    padding: 8px 20px;
+    text-decoration: none;
+    border: 1px solid #333;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* グリッド配置（2列×3段） */
+.grid-layout {
+    display: grid;
+    grid-template-columns: 300px 300px;
+    /* 3段に変更 */
+    grid-template-rows: 120px 120px 120px; 
+    gap: 30px;
+    justify-content: center;
+    /* 3段が綺麗に収まるように上の余白を少し調整 */
+    margin-top: 60px; 
+}
+/* 5番目のボタン（奇数）を中央に寄せるための魔法の設定 */
+.grid-layout .grid-item:nth-child(5) {
+    grid-column: 1 / -1; /* 2列分をまたぐように設定 */
+    justify-self: center; /* 中央に配置 */
+    width: 300px; /* 幅は他のボタンと同じ300pxを維持 */
+}
+
+
+/* メニューの白ボタン */
+.grid-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #999;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    text-align: center;
+}
+
+.grid-item:hover {
+    background-color: #f9f9f9;
+}
