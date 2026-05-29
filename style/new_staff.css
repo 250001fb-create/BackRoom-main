@@ -1,18 +1,5 @@
 @charset "UTF-8";
 
-/* =========================================
-   リセット・共通設定
-========================================= */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    background-color: #d7e9c6; /* 共通の薄い緑色 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
 
 /* =========================================
    メインコンテナ
@@ -50,23 +37,6 @@ form {
     color: #333;
 }
 
-/* 戻るボタン */
-.btn-back {
-    display: inline-block;
-    background-color: #ffffff;
-    color: #146c36;
-    border: 1px solid #146c36;
-    padding: 8px 25px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.2s;
-}
-
-.btn-back:hover {
-    background-color: #eef7f1;
-}
 
 /* =========================================
    入力フォームエリア（画像のような表形式＆大きく）

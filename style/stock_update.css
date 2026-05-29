@@ -39,22 +39,22 @@
 }
 
 /* =========================================
-   中央：検索バーエリア
+   トップセクション：検索バーエリア（修正）
 ========================================= */
-.search-section {
+.top-section {
     margin-top: 60px;
     display: flex;
     justify-content: center;
 }
 
-.search-container {
+.search-form {
     display: flex;
     width: 600px; /* ドロップダウンが増えた分、幅を拡張 */
 }
 
-/* 新しく追加したドロップダウン */
+/* ドロップダウン */
 .search-select {
-    width: 120px;
+    width: 140px; /* 「バーコード番号」が収まるように少し広げました */
     height: 50px;
     padding: 0 10px;
     font-size: 16px;
@@ -101,16 +101,20 @@
 }
 
 /* =========================================
-   検索結果表示エリア (テーブル)
+   詳細表示エリア / テーブル (修正)
 ========================================= */
-.result-section {
+.detail-section {
     margin-top: 30px;
     flex-grow: 1;
     overflow-y: auto;
 }
 
-.hidden {
-    display: none !important;
+/* 未検索時のメッセージ */
+.no-data-msg {
+    text-align: center;
+    color: #666;
+    margin-top: 50px;
+    font-size: 16px;
 }
 
 .table-container {
@@ -118,20 +122,20 @@
     border-radius: 4px;
 }
 
-.result-table {
+.stock-table {
     width: 100%;
     border-collapse: collapse;
     text-align: center;
 }
 
-.result-table th,
-.result-table td {
+.stock-table th,
+.stock-table td {
     border: 1px solid #ccc;
     padding: 12px 10px;
     font-size: 15px;
 }
 
-.result-table th {
+.stock-table th {
     background-color: #f9f9f9;
     position: sticky;
     top: 0;
