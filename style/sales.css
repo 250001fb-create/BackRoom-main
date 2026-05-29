@@ -1,8 +1,10 @@
+@charset "UTF-8";
+
 /* =========================================
-   メインコンテナ
+   メインコンテナ (画面固有のサイズ調整)
 ========================================= */
 .main-container {
-    width: 850px; /* 要素が多いので少しだけ幅を広げています */
+    width: 850px; 
     height: 550px;
     background-color: #ffffff;
     border-radius: 20px;
@@ -14,32 +16,19 @@
 }
 
 /* =========================================
-   戻るボタン
+   上部セクション (戻るボタンの配置用)
 ========================================= */
 .top-section {
     position: relative;
     height: 40px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
-.btn-back {
+/* 戻るボタンの装飾はcommon.cssに任せ、ここには「位置」だけを指定 */
+.top-section .btn-back {
     position: absolute;
     top: 0;
     left: 0;
-    display: inline-block;
-    background-color: #ffffff;
-    color: #146c36;
-    border: 1px solid #146c36;
-    padding: 8px 25px;
-    text-decoration: none;
-    border-radius: 4px; /* 角丸長方形 */
-    font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.2s;
-}
-
-.btn-back:hover {
-    background-color: #eef7f1;
 }
 
 /* =========================================
@@ -52,7 +41,7 @@
 }
 
 .tab-btn {
-    flex: 1; /* 幅を均等にする */
+    flex: 1;
     height: 40px;
     background-color: #f9f9f9;
     border: 1px solid #ccc;
@@ -60,22 +49,22 @@
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.2s;
-    color: #333;
+    color: #555;
+    position: relative; /* ホバー時に枠線を手前に出すため */
 }
 
-/* 最初のボタンの左側だけ角を丸める */
 .tab-btn:first-child {
     margin-left: 0;
-    border-radius: 4px 0 0 4px;
+    border-radius: 6px 0 0 6px;
 }
 
-/* 最後のボタンの右側だけ角を丸める */
 .tab-btn:last-child {
-    border-radius: 0 4px 4px 0;
+    border-radius: 0 6px 6px 0;
 }
 
 .tab-btn:hover {
-    background-color: #e0e0e0;
+    background-color: #e8e8e8;
+    z-index: 1;
 }
 
 /* 選択されているタブのスタイル */
@@ -83,7 +72,8 @@
     background-color: #ffffff;
     font-weight: bold;
     color: #146c36;
-    border-bottom: 2px solid #146c36;
+    border-bottom: 3px solid #146c36; /* 下線を少し太くしてクッキリさせる */
+    z-index: 2;
 }
 
 /* =========================================
@@ -94,24 +84,27 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 20px;
-    flex-grow: 1; /* 余った高さをすべて使う */
+    flex-grow: 1;
 }
 
 /* データ枠共通設定 */
 .data-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px; /* 角を少し強めに丸めて柔らかい印象に */
     padding: 15px 20px;
     display: flex;
     flex-direction: column;
-    background-color: #fafafa;
+    background-color: #ffffff; /* グレーから白に変更して清潔感を */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02); /* ほんのり影を追加 */
 }
 
 .data-card h3 {
-    margin: 0 0 10px 0;
-    font-size: 16px;
-    color: #555;
-    font-weight: normal;
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    color: #777;
+    font-weight: bold;
+    border-bottom: 1px solid #f0f0f0; /* タイトルの下に薄い区切り線 */
+    padding-bottom: 8px;
 }
 
 .data-value {
@@ -119,19 +112,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    font-size: 26px; /* 数値を少し大きめに */
+    font-weight: bold;
     color: #333;
+}
+
+.data-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
 }
 
 .data-list p {
-    margin: 5px 0;
-    color: #333;
+    margin: 4px 0;
+    color: #444;
     font-size: 16px;
+    font-weight: 500;
 }
 
 .weather-value {
-    font-size: 20px; /* 天気の文字は長くなることがあるので少し小さめ */
+    font-size: 18px;
     text-align: center;
+    color: #555;
+    font-weight: bold;
 }
 
 /* =========================================
@@ -139,42 +143,49 @@
 ========================================= */
 .weather-and-btn {
     display: flex;
-    gap: 15px; /* 天気カードとボタンの隙間 */
+    gap: 15px;
 }
 
 .weather-card {
-    flex-grow: 1; /* 天気カードを広げる */
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    flex-grow: 1;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
     padding: 15px 20px;
     display: flex;
     flex-direction: column;
-    background-color: #fafafa;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
 .weather-card h3 {
-    margin: 0 0 10px 0;
-    font-size: 16px;
-    color: #555;
-    font-weight: normal;
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    color: #777;
+    font-weight: bold;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 8px;
 }
 
-/* 詳細へボタン */
+/* 詳細へボタン（縦に伸びても綺麗に見えるようにデザイン変更） */
 .btn-detail {
-    width: 100px;
-    background-color: #ffffff;
-    color: #146c36;
-    border: 1px solid #146c36;
-    border-radius: 8px; /* 角丸長方形 */
+    flex-shrink: 0;
+    width: 120px; /* 少し幅を広げる */
+    background-color: #146c36; /* 白枠から緑のベタ塗りに変更して目立たせる */
+    color: #ffffff;
+    border: none;
+    border-radius: 12px; /* カードと角丸を合わせる */
     text-decoration: none;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 16px;
     font-weight: bold;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(20, 108, 54, 0.2); /* 影をつけてボタンらしさを強調 */
 }
 
 .btn-detail:hover {
-    background-color: #eef7f1;
+    background-color: #0f5429; /* ホバーで少し暗い緑に */
+    transform: translateY(-2px); /* ホバーで少し上に浮くアニメーション */
+    box-shadow: 0 6px 15px rgba(20, 108, 54, 0.3);
 }
