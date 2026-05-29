@@ -51,6 +51,15 @@
     transition: background-color 0.2s;
     color: #555;
     position: relative; /* ホバー時に枠線を手前に出すため */
+
+    /* ↓ aタグからbuttonタグに変えたことによる崩れを防ぐための追加コード */
+    padding: 0;
+    font-family: inherit;
+    box-sizing: border-box;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .tab-btn:first-child {

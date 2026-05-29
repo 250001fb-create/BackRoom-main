@@ -1,19 +1,4 @@
 <?php
-
-// セッションの開始
-session_start();
-
-// ログインしていない（セッションに情報がない）場合は、ログイン画面へ強制リダイレクト
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: index.php');
-    exit;
-}
-
-// ブラウザのキャッシュを無効化するヘッダー（戻るボタン対策）
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
 require_once 'db.php';
 
 // 期間の判定（デフォルトは本日）
@@ -52,15 +37,15 @@ try {
     $total_amount = $sales_data['total'] ?? 0;
     $sales_count = $sales_data['count'] ?? 0;
 
-    // 売れているジャンルランキング (上位3つ)
-    $sql_genre = "SELECT i.genre, SUM(sd.quantity) as cnt 
-              FROM sale_details sd 
-              JOIN items i ON sd.item_id = i.item_id 
-              JOIN sales s ON sd.sale_id = s.sale_id
-              WHERE $where
-              GROUP BY i.genre 
-              ORDER BY cnt DESC 
-              LIMIT 3";
+    // 売れているジャンルランキング (上位3つ) ※ i.genre から i.category に修正
+    $sql_genre = "SELECT i.category, SUM(sd.quantity) as cnt 
+                  FROM sale_details sd 
+                  JOIN items i ON sd.item_id = i.item_id 
+                  JOIN sales s ON sd.sale_id = s.sale_id
+                  WHERE $where
+                  GROUP BY i.category 
+                  ORDER BY cnt DESC 
+                  LIMIT 3";
 
     try {
         $genre_stmt = $pdo->prepare($sql_genre);
@@ -83,15 +68,6 @@ try {
     <title>売上情報 - バックルームコンピューター</title>
     <link rel="stylesheet" href="style/common.css">
     <link rel="stylesheet" href="style/sales.css">
-    <style>
-        /* Aタグをボタン風にするための微調整（念のため） */
-        .tab-btn {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            text-decoration: none;
-        }
-    </style>
 </head>
 <body>
     <div class="main-container">
@@ -101,11 +77,11 @@ try {
         </div>
         
         <div class="tab-group">
-            <a href="?range=hour" class="tab-btn <?= $range=='hour'?'active':'' ?>">過去1時間</a>
-            <a href="?range=today" class="tab-btn <?= $range=='today'?'active':'' ?>">本日</a>
-            <a href="?range=week" class="tab-btn <?= $range=='week'?'active':'' ?>">今週</a>
-            <a href="?range=month" class="tab-btn <?= $range=='month'?'active':'' ?>">今月</a>
-            <a href="?range=year" class="tab-btn <?= $range=='year'?'active':'' ?>">今年</a>
+            <button class="tab-btn <?= $range=='hour'?'active':'' ?>" data-period="過去1時間">過去1時間</button>
+            <button class="tab-btn <?= $range=='today'?'active':'' ?>" data-period="本日">本日</button>
+            <button class="tab-btn <?= $range=='week'?'active':'' ?>" data-period="今週">今週</button>
+            <button class="tab-btn <?= $range=='month'?'active':'' ?>" data-period="今月">今月</button>
+            <button class="tab-btn <?= $range=='year'?'active':'' ?>" data-period="今年">今年</button>
         </div>
 
         <div class="dashboard-grid">
@@ -124,7 +100,7 @@ try {
                 <div class="data-list" id="genre-list">
                     <?php if ($genres): ?>
                         <?php foreach ($genres as $index => $g): ?>
-                            <p><?= ($index+1) ?>. <?= htmlspecialchars($g['genre']) ?></p>
+                            <p><?= ($index+1) ?>. <?= htmlspecialchars($g['category']) ?></p>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <p>データなし</p>
@@ -142,23 +118,6 @@ try {
         </div>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            /* ----------------------------------------------------
-               天気予報の取得処理（気象庁オープンデータ）
-               ※ダミーのタブ切り替えはPHP化したため削除しました
-            ---------------------------------------------------- */
-            fetch('https://www.jma.go.jp/bosai/forecast/data/forecast/140000.json')
-                .then(response => response.json())
-                .then(data => {
-                    const weatherText = data[0].timeSeries[0].areas[0].weathers[0];
-                    document.getElementById('weather-info').textContent = weatherText.replace(/　/g, ' ');
-                })
-                .catch(error => {
-                    document.getElementById('weather-info').textContent = '情報取得エラー';
-                    console.error('天気情報の取得に失敗:', error);
-                });
-        });
-    </script>
+    <script src="js/sales.js"></script>
 </body>
 </html>
