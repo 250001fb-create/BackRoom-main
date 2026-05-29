@@ -2,14 +2,21 @@
 // 既存の接続ファイルを読み込みます
 require_once 'db.php';
 
-// 検索された商品IDを取得
-$search_id = isset($_GET['search_id']) ? trim($_GET['search_id']) : '';
+// 検索タイプ（id または name）と 検索キーワードを取得
+$search_type = isset($_GET['search_type']) ? $_GET['search_type'] : 'id';
+$search_keyword = isset($_GET['search_keyword']) ? trim($_GET['search_keyword']) : '';
 
 try {
-    if ($search_id !== '') {
-        // 商品IDが入力されている場合は、その商品だけを検索
-        $stmt = $pdo->prepare('SELECT * FROM items WHERE item_id = :item_id');
-        $stmt->execute(['item_id' => $search_id]);
+    if ($search_keyword !== '') {
+        if ($search_type === 'name') {
+            // 【商品名検索】入力した文字が含まれるものを検索（部分一致）
+            $stmt = $pdo->prepare('SELECT * FROM items WHERE item_name LIKE :keyword');
+            $stmt->execute(['keyword' => '%' . $search_keyword . '%']);
+        } else {
+            // 【商品ID検索】完全に一致するものを検索（完全一致）
+            $stmt = $pdo->prepare('SELECT * FROM items WHERE item_id = :keyword');
+            $stmt->execute(['keyword' => $search_keyword]);
+        }
     } else {
         // 入力されていない場合は全件表示
         $stmt = $pdo->query('SELECT * FROM items');
@@ -27,6 +34,7 @@ try {
     <title>在庫確認 - バックルームコンピューター</title>
     <link rel="stylesheet" href="style/common.css">
     <link rel="stylesheet" href="style/stock_page.css">
+    </style>
 </head>
 <body>
     <div class="main-container">
@@ -34,7 +42,12 @@ try {
             <a href="stock_select.php" class="btn-back">戻る</a>
             
             <form action="stock.php" method="GET" class="search-container">
-                <input type="text" name="search_id" value="<?php echo htmlspecialchars($search_id, ENT_QUOTES, 'UTF-8'); ?>" placeholder="商品IDの入力" class="search-input">
+                <select name="search_type" class="search-select">
+                    <option value="id" <?php if ($search_type === 'id') echo 'selected'; ?>>商品ID</option>
+                    <option value="name" <?php if ($search_type === 'name') echo 'selected'; ?>>商品名</option>
+                </select>
+                
+                <input type="text" name="search_keyword" value="<?php echo htmlspecialchars($search_keyword, ENT_QUOTES, 'UTF-8'); ?>" placeholder="検索キーワードを入力" class="search-input">
                 <button type="submit" class="btn-search">検索</button>
             </form>
         </div>
