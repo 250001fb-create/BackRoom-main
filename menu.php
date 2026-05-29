@@ -20,10 +20,10 @@
 
         <main class="grid-layout">
             <a href="stock_select.php" class="grid-item">
-                <span class="label">在庫</span>
+                <span class="label">在庫<br>確認・更新</span>
             </a>
             <a href="sales.php" class="grid-item">
-                <span class="label">売上</span>
+                <span class="label">売上一覧</span>
             </a>
             <a href="Accounting_history.php" class="grid-item">
                 <span class="label">会計履歴</span>
