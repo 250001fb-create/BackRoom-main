@@ -1,27 +1,26 @@
-// テスト用のダミー社員データ
-const mockStaff = [
-    { emp_id: "ID001", emp_number: "1001", name: "山田 太郎", kana: "ヤマダ タロウ", pass: "12345" },
-    { emp_id: "ID002", emp_number: "1002", name: "鈴木 花子", kana: "スズキ ハナコ", pass: "67890" },
-    { emp_id: "ID003", emp_number: "2001", name: "佐藤 次郎", kana: "サトウ ジロウ", pass: "abcde" }
-];
-
 // HTML要素の取得
+const searchForm = document.getElementById('search-form');
 const searchType = document.getElementById('search-type');
 const searchKeyword = document.getElementById('search-keyword');
-const btnSearch = document.getElementById('btn-search');
 
 const noDataMessage = document.getElementById('no-data-message');
 const updateFormArea = document.getElementById('update-form-area');
+const updateForm = document.getElementById('update-form');
 
 const formName = document.getElementById('form-name');
 const formKana = document.getElementById('form-kana');
 const formNumber = document.getElementById('form-number');
 const formPass = document.getElementById('form-pass');
 
-const btnSubmit = document.getElementById('btn-submit');
+// 状態保持用
+let currentStaffId = null;
 
-// 「検索」ボタンが押されたときの処理
-btnSearch.addEventListener('click', () => {
+// ==========================================
+// 1. 検索処理
+// ==========================================
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault(); 
+    
     const type = searchType.value;
     const keyword = searchKeyword.value.trim();
     
@@ -30,38 +29,89 @@ btnSearch.addEventListener('click', () => {
         return;
     }
     
-    // 選択されたタイプ（社員ID/社員番号）に応じてデータを検索
-    const foundStaff = mockStaff.find(staff => {
-        if (type === 'emp_id') return staff.emp_id === keyword;
-        if (type === 'emp_number') return staff.emp_number === keyword;
-        return false;
+    fetch('update_staff.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'search', type: type, keyword: keyword })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const staff = data.staff;
+            currentStaffId = staff.staff_id;
+
+            // 取得したデータを入れる
+            formName.value = staff.staff_name;
+            formKana.value = staff.kana;
+            formNumber.value = staff.staff_number;
+            formPass.value = ""; // パスワードは空にする（変更時のみ入力）
+            
+            // 案内文を隠して、入力フォームを表示
+            noDataMessage.style.display = 'none';
+            updateFormArea.style.display = 'flex';
+        } else {
+            alert(data.message);
+            resetScreen();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('検索中にエラーが発生しました。');
     });
-    
-    if (foundStaff) {
-        // 見つかった場合：各入力欄に現在のデータをセット
-        formName.value = foundStaff.name;
-        formKana.value = foundStaff.kana;
-        formNumber.value = foundStaff.emp_number;
-        formPass.value = foundStaff.pass;
-        
-        // 案内文を隠して、入力フォームを表示
-        noDataMessage.style.display = 'none';
-        updateFormArea.style.display = 'flex';
-    } else {
-        alert("該当する社員が見つかりませんでした。\n（※テスト用データ: 社員番号「1001」や 社員ID「ID001」でお試しください）");
-        noDataMessage.style.display = 'flex';
-        updateFormArea.style.display = 'none';
-    }
 });
 
-// 「更新する」ボタンが押されたときの送信処理（テスト用）
-btnSubmit.addEventListener('click', (e) => {
+// ==========================================
+// 2. 更新処理
+// ==========================================
+updateForm.addEventListener('submit', (e) => {
     e.preventDefault(); 
-    const updatedNumber = formNumber.value;
-    alert(`社員情報を更新しました！\n新しい社員番号: ${updatedNumber}`);
-    
-    // 初期状態に戻す
-    searchKeyword.value = "";
+
+    if (!currentStaffId) return;
+
+    const newName = formName.value.trim();
+    const newKana = formKana.value.trim();
+    const newNumber = formNumber.value.trim();
+    const newPass = formPass.value;
+
+    const isConfirmed = confirm('表示されている内容で社員情報を更新しますか？');
+    if (!isConfirmed) return;
+
+    fetch('update_staff.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            action: 'update', 
+            target_id: currentStaffId, 
+            staff_name: newName,
+            kana: newKana,
+            staff_number: newNumber,
+            staff_pass: newPass 
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('社員情報を正常に更新しました！');
+            searchKeyword.value = "";
+            resetScreen();
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('更新処理中にエラーが発生しました。');
+    });
+});
+
+// 画面初期化用関数
+function resetScreen() {
+    currentStaffId = null;
     noDataMessage.style.display = 'flex';
     updateFormArea.style.display = 'none';
-});
+    
+    formName.value = "";
+    formKana.value = "";
+    formNumber.value = "";
+    formPass.value = "";
+}
