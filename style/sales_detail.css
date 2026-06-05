@@ -1,79 +1,139 @@
 /* =========================================
-   メインコンテナ
+   メインコンテナ (共通以外の独自設定のみ)
 ========================================= */
 .main-container {
     width: 850px;
     height: 550px;
-    background-color: #ffffff;
-    border-radius: 20px;
     padding: 30px 40px;
-    box-sizing: border-box;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
 }
 
 /* =========================================
-   ヘッダーエリア（戻るボタン ＋ 検索バー）
+   ヘッダーエリア（戻るボタン ＋ 検索バー/結果）
 ========================================= */
 .top-section {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* 検索バーと結果をど真ん中に配置 */
     align-items: center;
     margin-bottom: 20px;
     position: relative;
-    height: 40px;
+    height: 45px; /* ここを基準に全ての高さを揃える */
 }
 
+/* 戻るボタンの配置 (絶対配置にして他の要素と被らないようにする) */
 .btn-back {
     position: absolute;
     left: 0;
-    background-color: #ffffff;
-    color: #146c36;
-    border: 1px solid #146c36;
-    padding: 8px 25px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.2s;
+    top: 50%;
+    transform: translateY(-50%); /* 縦のど真ん中に固定 */
+    margin: 0;
 }
 
-.btn-back:hover {
-    background-color: #eef7f1;
-}
-
-/* 検索バー */
+/* 検索バー (formタグ) */
 .search-container {
-    margin: 0 auto; /* 中央寄せ */
     display: flex;
     border: 1px solid #ccc;
     border-radius: 4px;
     overflow: hidden;
-    width: 400px;
+    width: 450px; /* 検索バーの幅 */
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.search-container select {
+    border: none;
+    border-right: 1px solid #ccc;
+    padding: 0 10px;
+    outline: none;
+    background-color: #f9f9f9;
 }
 
 .search-container input {
     flex-grow: 1;
-    padding: 10px 15px;
+    padding: 0 15px;
     border: none;
     outline: none;
     font-size: 14px;
-    text-align: center;
+    background-color: transparent; /* 背景を透明にして線の邪魔をしない */
 }
 
+/* 検索ボタン（元のグレーデザイン・左に区切り線） */
 .search-container button {
     padding: 0 25px;
     background-color: #f9f9f9;
+    color: #333;
     border: none;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid #ccc; /* 灰色の縦線 */
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.2s;
+    height: 100%;
 }
 
 .search-container button:hover {
     background-color: #e0e0e0;
+}
+
+/* =========================================
+   🌟検索結果（商品情報）の表示エリア
+========================================= */
+.product-info-header {
+    /* HTML側で display: none; 制御 */
+    align-items: center;
+    justify-content: space-between;
+    background-color: #eef7f1; /* 優しい緑の背景 */
+    border: 2px solid #146c36; /* くっきりした枠線 */
+    border-radius: 8px;
+    width: 600px;
+    height: 100%;
+    padding: 0 5px 0 20px; /* 右側は解除ボタンがあるので狭め */
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+/* テキストをまとめるグループ */
+.info-text-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    overflow: hidden;
+}
+
+/* 商品ID・商品名・ジャンルの各テキスト */
+.info-cell {
+    font-size: 14px;
+    color: #146c36;
+    font-weight: bold;
+    white-space: nowrap; /* 文字の折り返し禁止 */
+}
+
+/* 項目と項目の間に縦線を入れる */
+.info-cell:not(:first-child)::before {
+    content: "|";
+    color: #a0c4a4;
+    margin-right: 15px;
+    font-weight: normal;
+}
+
+/* 解除ボタン */
+.btn-clear-search {
+    background-color: #ef4444; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 15px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.btn-clear-search:hover {
+    background-color: #dc2626;
 }
 
 /* =========================================
@@ -118,12 +178,11 @@
 }
 
 .column-left, .column-right {
-    flex: 1; /* 左右の幅を半分ずつにする */
+    flex: 1; 
     display: flex;
     flex-direction: column;
 }
 
-/* 右カラム内のカードの間隔 */
 .column-right {
     gap: 20px;
 }
@@ -138,15 +197,13 @@
     background-color: #fafafa;
 }
 
-/* 左側の大きなカード */
 .data-card.large-card {
-    flex-grow: 1; /* 高さいっぱいに広げる */
+    flex-grow: 1; 
     margin-bottom: 10px;
 }
 
-/* 右側の小さなカード */
 .data-card.small-card {
-    flex: 1; /* 縦に2つ均等に配置 */
+    flex: 1; 
 }
 
 .data-card h3 {
@@ -178,17 +235,15 @@
     font-size: 16px;
 }
 
-/* 左下のリンク */
-.other-search-link {
-    display: inline-block;
-    color: #555;
-    text-decoration: none;
-    font-size: 14px;
-    align-self: center; /* 左カラムの中で中央寄せ */
-    margin-top: 5px;
+/* =========================================
+   商品検索後の「個数・金額」カードエリア
+========================================= */
+.product-stats-grid {
+    display: flex;
+    gap: 20px;
+    flex-grow: 1;
 }
 
-.other-search-link:hover {
-    color: #146c36;
-    text-decoration: underline;
+.product-stats-grid .data-card {
+    flex: 1; 
 }

@@ -63,20 +63,22 @@ try {
         <div class="top-section">
             <a href="sales.php" class="btn-back">戻る</a>
             
-            <div class="search-container" id="search-bar-box">
+            <form class="search-container" id="search-form">
                 <select class="search-select">
                     <option value="id">商品ID</option>
                     <option value="name">商品名</option>
                     <option value="barcode">バーコード番号</option>
                 </select>
-                <input type="text" id="search-input" placeholder="検索キーワードを入力">
-                <button type="button" id="btn-search">検索</button>
-            </div>
+                <input type="text" id="search-input" placeholder="検索キーワードを入力" autocomplete="off">
+                <button type="submit" id="btn-search">検索</button>
+            </form>
 
             <div class="product-info-header" id="product-info-box" style="display: none;">
-                <div class="info-cell" id="info-id">商品ID: ------</div>
-                <div class="info-cell" id="info-name">商品名: ------</div>
-                <div class="info-cell" id="info-genre" style="border: none;">ジャンル: ------</div>
+                <div class="info-text-group">
+                    <span class="info-cell" id="info-id">商品ID: ------</span>
+                    <span class="info-cell" id="info-name">商品名: ------</span>
+                    <span class="info-cell" id="info-genre">ジャンル: ------</span>
+                </div>
                 <button type="button" class="btn-clear-search" id="btn-clear">✕ 解除</button>
             </div>
         </div>
