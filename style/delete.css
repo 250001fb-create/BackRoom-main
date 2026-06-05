@@ -34,7 +34,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     height: 40px;
 }
 
@@ -56,58 +56,113 @@ body {
 }
 
 /* =========================================
-   検索エリア（プルダウン ＋ 入力欄 ＋ 検索ボタン）
+   🌟 検索エリア（updateと同じ連結デザイン）
 ========================================= */
-.search-section {
+.search-container {
     display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
-    align-items: center;
-    background-color: #fafafa;
-    padding: 15px;
-    border-radius: 8px;
     border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .search-select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: #ffffff;
-    outline: none;
-    min-width: 140px;
-    color: #333;
-}
-
-.search-input {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    color: #333;
-}
-
-.search-select:focus,
-.search-input:focus {
-    border-color: #146c36;
-}
-
-.btn-search {
-    background-color: #146c36;
-    color: #ffffff;
     border: none;
-    padding: 10px 30px;
-    border-radius: 4px;
+    border-right: 1px solid #ccc;
+    padding: 0 10px;
+    outline: none;
+    background-color: #f9f9f9;
+    color: #333;
     font-size: 14px;
-    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
+.search-select:hover {
+    background-color: #e0e0e0;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 0 15px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background-color: transparent;
+}
+
+.btn-search {
+    width: 100px;
+    background-color: #f9f9f9;
+    color: #333;
+    border: none;
+    border-left: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
 .btn-search:hover {
+    background-color: #e0e0e0;
+}
+
+/* =========================================
+   🌟 追加：検索結果リストテーブル
+========================================= */
+.table-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.items-table th, 
+.items-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.items-table th {
+    background-color: #f9f9f9;
+    color: #333;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.items-table td {
+    color: #555;
+    vertical-align: middle;
+}
+
+.btn-select {
+    display: inline-block;
+    background-color: #146c36;
+    color: #ffffff;
+    padding: 6px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-select:hover {
     background-color: #0f5229;
 }
 
@@ -115,8 +170,10 @@ body {
    商品詳細表示エリア（1行×6列の格子デザイン）
 ========================================= */
 .detail-section {
-    margin-bottom: 40px;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .detail-grid {
@@ -128,6 +185,7 @@ body {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    margin-bottom: 20px;
 }
 
 .grid-header {
@@ -161,6 +219,7 @@ body {
     border: 1px dashed #ccc;
     border-radius: 8px;
     font-size: 14px;
+    margin-bottom: 20px;
 }
 
 /* =========================================
@@ -195,7 +254,6 @@ body {
     transform: scale(0.99);
 }
 
-/* まだ検索していない時はボタンを押せないようにする（親切設計） */
 .btn-delete:disabled {
     background-color: #dddddd;
     color: #999999;

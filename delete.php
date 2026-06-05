@@ -3,13 +3,13 @@
 // セッションの開始
 session_start();
 
-// ログインしていない（セッションに情報がない）場合は、ログイン画面へ強制リダイレクト
+// ログインしていない場合はログイン画面へ強制リダイレクト
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('Location: index.php');
     exit;
 }
 
-// ブラウザのキャッシュを無効化するヘッダー（戻るボタン対策）
+// ブラウザのキャッシュを無効化
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
@@ -17,20 +17,19 @@ header("Pragma: no-cache");
 // データベース接続ファイルを読み込み
 require_once 'db.php';
 
-// Ajax（Fetch API）からのリクエスト（検索または削除）を処理
+// Ajax（Fetch API）からのリクエスト処理
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
-    // 送信されたJSONデータを取得
     $input = json_decode(file_get_contents('php://input'), true);
     $action = $input['action'] ?? '';
 
     // =========================================
-    // 1. 商品検索処理
+    // 1. 商品検索処理（リストで返すように変更）
     // =========================================
     if ($action === 'search') {
         $type = $input['type'] ?? '';
         $keyword = $input['keyword'] ?? '';
 
-        if (empty($keyword)) {
+        if ($keyword === '') {
             echo json_encode(['success' => false, 'message' => 'キーワードを入力してください。']);
             exit;
         }
@@ -48,21 +47,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_TYPE']) && 
                 $stmt->execute([':keyword' => '%' . $keyword . '%']);
             }
             
-            $product = $stmt->fetch(PDO::FETCH_ASSOC);
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            if ($product) {
-                // フロントエンドに返す商品データを成形
-                echo json_encode([
-                    'success' => true,
-                    'product' => [
+            if ($products) {
+                $result_data = [];
+                foreach ($products as $product) {
+                    $result_data[] = [
                         'id' => $product['item_id'],
                         'name' => $product['item_name'],
                         'barcode' => !empty($product['barcode']) ? $product['barcode'] : 'なし',
                         'price' => '¥' . number_format($product['price']),
                         'tax_rate' => $product['tax_rate'] . '%',
                         'category' => !empty($product['category']) ? $product['category'] : 'その他'
-                    ]
-                ]);
+                    ];
+                }
+                echo json_encode(['success' => true, 'products' => $result_data]);
             } else {
                 echo json_encode(['success' => false, 'message' => '該当する商品が見つかりませんでした。']);
             }
@@ -84,7 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_TYPE']) && 
         }
 
         try {
-            // データベースから指定IDの商品を削除
             $stmt = $pdo->prepare("DELETE FROM items WHERE item_id = :id");
             $stmt->execute([':id' => $id]);
             echo json_encode(['success' => true]);
@@ -108,20 +106,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_TYPE']) && 
     <div class="main-container">
         
         <div class="top-section">
-            <a href="in_out_updt.php" class="btn-back">戻る</a>
+            <a href="in_out_updt.php" id="btn-top-back" class="btn-back">戻る</a>
+            <h2 style="margin: 0 auto; color: #b33939; font-size: 20px;">商品の削除</h2>
         </div>
         
-        <div class="search-section">
+        <form id="search-form" class="search-container">
             <select id="search-type" class="search-select">
                 <option value="name">商品名</option>
                 <option value="id">商品ID</option>
                 <option value="barcode">バーコード番号</option>
             </select>
-            <input type="text" id="search-keyword" class="search-input" placeholder="検索キーワードを入力してください">
-            <button type="button" id="btn-search" class="btn-search">検索</button>
+            <input type="text" id="search-keyword" class="search-input" placeholder="検索キーワードを入力してください" autocomplete="off">
+            <button type="submit" class="btn-search">検索</button>
+        </form>
+
+        <div id="table-container" class="table-container" style="display: none;">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>商品ID</th>
+                        <th>商品名</th>
+                        <th>ジャンル</th>
+                        <th>単価</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="results-tbody">
+                    </tbody>
+            </table>
         </div>
         
-        <div class="detail-section">
+        <div id="detail-section-wrapper" class="detail-section">
             <div id="no-data-message" class="no-data-msg">
                 上の検索窓から商品を検索してください。ここに商品の詳細が表示されます。
             </div>
@@ -130,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_TYPE']) && 
                 <div class="grid-header">商品名</div>
                 <div class="grid-value" id="val-name"></div>
                 
-                <div class="grid-header">バーコード番号</div>
+                <div class="grid-header">バーコード</div>
                 <div class="grid-value" id="val-barcode"></div>
                 
                 <div class="grid-header">商品ID</div>
