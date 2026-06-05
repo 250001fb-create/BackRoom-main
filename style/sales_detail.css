@@ -247,3 +247,77 @@
 .product-stats-grid .data-card {
     flex: 1; 
 }
+/* =========================================
+   🌟追加：商品選択リストエリア
+========================================= */
+#view-product-list {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#view-product-list h3 {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    color: #146c36;
+}
+
+.product-list-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    border-top: 1px solid #eee;
+}
+
+.product-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+.product-list-item:hover {
+    background-color: #eef7f1;
+}
+
+.product-list-item:last-child {
+    border-bottom: none;
+}
+
+.list-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.list-item-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.list-item-sub {
+    font-size: 13px;
+    color: #666;
+}
+
+.btn-select-product {
+    background-color: #146c36;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-select-product:hover {
+    background-color: #0f5229;
+}

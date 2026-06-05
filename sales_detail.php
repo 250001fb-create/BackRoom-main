@@ -3,20 +3,54 @@
 // セッションの開始
 session_start();
 
-// ログインしていない（セッションに情報がない）場合は、ログイン画面へ強制リダイレクト
+// ログインしていない場合はログイン画面へ強制リダイレクト
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('Location: index.php');
     exit;
 }
 
-// ブラウザのキャッシュを無効化するヘッダー（戻るボタン対策）
+// ブラウザのキャッシュを無効化
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-
-// DB接続の読み込み（sales.phpと同じファイルを指定してください）
 require_once 'db.php'; 
+
+// =========================================
+// 【追加】Ajax：商品検索（選択肢を表示するため）
+// =========================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
+    $input = json_decode(file_get_contents('php://input'), true);
+    
+    if (($input['action'] ?? '') === 'search_products') {
+        $type = $input['type'] ?? 'name';
+        $keyword = $input['keyword'] ?? '';
+        
+        try {
+            // ※注意：itemsテーブルのカラム名（item_name, barcodeなど）が違う場合はここを修正してください
+            $sql = "SELECT item_id, item_name, category FROM items WHERE ";
+            if ($type === 'id') {
+                $sql .= "item_id = :keyword";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute(['keyword' => $keyword]);
+            } elseif ($type === 'barcode') {
+                $sql .= "barcode = :keyword";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute(['keyword' => $keyword]);
+            } else {
+                $sql .= "item_name LIKE :keyword";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute(['keyword' => '%' . $keyword . '%']);
+            }
+            
+            $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode(['success' => true, 'items' => $items]);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'データベースエラー: ' . $e->getMessage()]);
+        }
+        exit;
+    }
+}
 
 // --- 初期表示（未検索・本日）用の全体データを取得 ---
 $total_amount = 0;
@@ -64,7 +98,7 @@ try {
             <a href="sales.php" class="btn-back">戻る</a>
             
             <form class="search-container" id="search-form">
-                <select class="search-select">
+                <select class="search-select" id="search-type">
                     <option value="id">商品ID</option>
                     <option value="name">商品名</option>
                     <option value="barcode">バーコード番号</option>
@@ -89,6 +123,12 @@ try {
             <button class="tab-btn" data-period="今週">今週</button>
             <button class="tab-btn" data-period="今月">今月</button>
             <button class="tab-btn" data-period="今年">今年</button>
+        </div>
+
+        <div id="view-product-list" style="display: none;">
+            <h3>該当する商品を選択してください</h3>
+            <div class="product-list-container" id="product-list-container">
+                </div>
         </div>
 
         <div id="view-global-sales" style="display: flex; flex-direction: column; flex-grow: 1;">
