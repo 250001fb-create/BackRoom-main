@@ -1,23 +1,16 @@
 @charset "UTF-8";
 
-
 /* =========================================
    メインコンテナ
 ========================================= */
 .main-container {
     width: 850px;
-    height: 600px; /* 入力欄を大きくした分、高さを少し広げました */
+    height: 600px;
     background-color: #ffffff;
     border-radius: 20px;
     padding: 30px 40px;
     box-sizing: border-box;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    height: calc(100% - 65px); /* ヘッダー分を引いた高さ */
 }
 
 /* =========================================
@@ -37,9 +30,37 @@ form {
     color: #333;
 }
 
+/* =========================================
+   メッセージエリア（ズレ防止用の固定スペース）
+========================================= */
+.message-area {
+    height: 20px; /* メッセージが出ても出なくても常に確保する高さ */
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.error-msg {
+    color: red;
+}
+
+.success-msg {
+    color: #146c36; /* 元のgreenより少しデザインに合わせた緑に微調整 */
+}
 
 /* =========================================
-   入力フォームエリア（画像のような表形式＆大きく）
+   フォーム全体
+========================================= */
+form {
+    display: flex;
+    flex-direction: column;
+    /* ヘッダー(40px+25px)とメッセージエリア(20px+15px)の合計100pxを引いた高さ */
+    height: calc(100% - 100px); 
+}
+
+/* =========================================
+   入力フォームエリア
 ========================================= */
 .form-wrapper {
     display: flex;
@@ -48,37 +69,34 @@ form {
     margin-bottom: 30px;
 }
 
-/* カード風の質感を持たせた1行分の入力枠 */
 .form-group {
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #ffffff;
     display: flex;
-    flex-direction: row; /* 横並びにして表のようにする */
+    flex-direction: row;
     align-items: stretch;
-    overflow: hidden; /* 角丸からはみ出ないように */
+    overflow: hidden;
 }
 
-/* 左側のラベル部分 */
 .form-group label {
-    width: 220px; /* ラベルの幅を少し広めに */
-    padding: 20px; /* 余白を大きく取って高さを出す */
+    width: 220px;
+    padding: 20px;
     font-size: 16px;
     color: #555;
     font-weight: bold;
-    background-color: #fafafa; /* ラベル部分だけ少しグレーに */
+    background-color: #fafafa;
     border-right: 1px solid #ccc;
     display: flex;
     align-items: center;
     box-sizing: border-box;
 }
 
-/* 右側の入力欄 */
 .form-group input {
-    flex-grow: 1; /* 残りの幅をすべて使う */
-    padding: 20px; /* 文字を大きく見せるための広い余白 */
-    border: none; /* 外側に枠線があるのでここは消す */
-    font-size: 18px; /* 入力文字サイズを大きく */
+    flex-grow: 1;
+    padding: 20px;
+    border: none;
+    font-size: 18px;
     background-color: #ffffff;
     box-sizing: border-box;
     outline: none;
@@ -86,23 +104,21 @@ form {
     transition: background-color 0.2s;
 }
 
-/* フォーカス時の色合い */
 .form-group input:focus {
-    background-color: #eef7f1; /* 戻るボタンのホバーと同じ色で統一感 */
+    background-color: #eef7f1;
 }
 
 /* =========================================
    下部の大きな更新ボタンエリア
 ========================================= */
 .bottom-btn-wrapper {
-    flex-grow: 1; /* 残りの高さをすべて使う */
+    flex-grow: 1;
     display: flex;
-    align-items: flex-end; /* ボタンを下揃えに */
+    align-items: flex-end;
     justify-content: center;
     margin-bottom: 10px;
 }
 
-/* 元の入力欄の存在感を意識した、ドカンと大きいボタン */
 .btn-submit-large {
     width: 100%;
     height: 80px; 
@@ -122,5 +138,5 @@ form {
 }
 
 .btn-submit-large:active {
-    transform: scale(0.99); /* クリックしたときに少しへこむ可愛い演出 */
+    transform: scale(0.99);
 }

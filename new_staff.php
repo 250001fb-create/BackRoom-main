@@ -44,12 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $password_hash = password_hash($staff_pass, PASSWORD_DEFAULT);
 
                 // 3. データベースへインサート
-                // ※SQLのテーブル定義に合わせて staff_number, staff_name, password_hash を登録します
                 $stmt = $pdo->prepare('INSERT INTO staff (staff_number, staff_name, kana, password_hash) VALUES (:staff_number, :staff_name, :kana, :password_hash)');
                 $stmt->execute([
                     'staff_number'  => $staff_number,
                     'staff_name'    => $staff_name,
-                    'kana'          => $staff_kana, // SQL文の :kana としっかり連動します
+                    'kana'          => $staff_kana,
                     'password_hash' => $password_hash
                 ]);
 
@@ -79,17 +78,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div style="width: 82px;"></div>
         </div>
 
-        <?php if ($error_msg !== ''): ?>
-            <div style="color: red; text-align: center; margin-bottom: 15px; font-weight: bold;">
-                <?php echo htmlspecialchars($error_msg, ENT_QUOTES, 'UTF-8'); ?>
-            </div>
-        <?php endif; ?>
-        
-        <?php if ($success_msg !== ''): ?>
-            <div style="color: green; text-align: center; margin-bottom: 15px; font-weight: bold;">
-                <?php echo htmlspecialchars($success_msg, ENT_QUOTES, 'UTF-8'); ?>
-            </div>
-        <?php endif; ?>
+        <div class="message-area">
+            <?php if ($error_msg !== ''): ?>
+                <span class="error-msg"><?php echo htmlspecialchars($error_msg, ENT_QUOTES, 'UTF-8'); ?></span>
+            <?php endif; ?>
+            
+            <?php if ($success_msg !== ''): ?>
+                <span class="success-msg"><?php echo htmlspecialchars($success_msg, ENT_QUOTES, 'UTF-8'); ?></span>
+            <?php endif; ?>
+        </div>
 
         <form action="new_staff.php" method="POST">
             <div class="form-wrapper">
