@@ -56,74 +56,61 @@ body {
 }
 
 /* =========================================
-   検索エリア（プルダウン ＋ 入力欄 ＋ 検索ボタン）
+   🌟 検索エリア（プルダウン ＋ 入力欄 ＋ 検索ボタン）
 ========================================= */
-.search-section {
+.search-container {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    align-items: center;
-    background-color: #fafafa;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-
-.search-select {
-    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 14px;
-    background-color: #ffffff;
-    outline: none;
-    min-width: 140px;
-    color: #333;
+    overflow: hidden;
+    width: 100%;
+    height: 40px; /* 高さを指定 */
+    margin-bottom: 15px; /* テーブルとの隙間 */
+    box-sizing: border-box;
+    flex-shrink: 0; /* 検索バーが潰れないようにする */
 }
 
+/* プルダウン */
+.search-select {
+    border: none;
+    border-right: 1px solid #ccc;
+    padding: 0 10px;
+    outline: none;
+    background-color: #f9f9f9; /* 指定のグレー */
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.search-select:hover {
+    background-color: #e0e0e0;
+}
+
+/* テキスト入力欄 */
 .search-input {
     flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    color: #333;
-}
-
-.search-select:focus,
-.search-input:focus {
-    border-color: #146c36;
-}
-
-.btn-search {
-    background-color: #146c36;
-    color: #ffffff;
+    padding: 0 15px;
     border: none;
-    padding: 10px 30px;
-    border-radius: 4px;
+    outline: none;
+    font-size: 14px;
+    background-color: transparent;
+}
+
+/* 検索ボタン */
+.btn-search {
+    width: 100px;
+    background-color: #f9f9f9; /* 指定のグレー */
+    color: #333;
+    border: none;
+    border-left: 1px solid #ccc;
+    cursor: pointer;
     font-size: 14px;
     font-weight: bold;
-    cursor: pointer;
     transition: background-color 0.2s;
 }
 
 .btn-search:hover {
-    background-color: #0f5229;
-}
-
-/* 検索前のプレースホルダーメッセージ */
-.no-data-msg {
-    text-align: center;
-    color: #888;
-    padding: 60px;
-    background-color: #fafafa;
-    border: 1px dashed #ccc;
-    border-radius: 8px;
-    font-size: 14px;
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: #e0e0e0; /* ホバーで濃いグレー */
 }
 
 /* =========================================
@@ -135,7 +122,6 @@ body {
     flex-grow: 1;
 }
 
-/* 2行×4列の入力フォームグリッド */
 .form-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -209,14 +195,13 @@ body {
 }
 
 /* =========================================
-   ここから追加：商品一覧テーブル用のスタイル
+   商品一覧テーブル用のスタイル
 ========================================= */
 .table-container {
-    flex-grow: 1; 
-    overflow-y: auto; /* 商品数が増えたら自動でスクロール */
+    flex-grow: 1; /* 余ったスペースを埋める（検索バーの追加により自動で縮小します） */
+    overflow-y: auto; /* はみ出たらスクロール */
     border: 1px solid #ccc;
     border-radius: 8px;
-    margin-top: 10px;
 }
 
 .items-table {
@@ -236,7 +221,7 @@ body {
     background-color: #f9f9f9;
     color: #333;
     font-weight: bold;
-    position: sticky; /* スクロールしてもヘッダーが見えるように固定 */
+    position: sticky; 
     top: 0;
     z-index: 1;
 }
@@ -246,7 +231,6 @@ body {
     vertical-align: middle;
 }
 
-/* 一覧内の「選択」ボタン */
 .btn-select {
     display: inline-block;
     background-color: #146c36;

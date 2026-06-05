@@ -182,6 +182,15 @@ if (!$product) {
         </div>
 
         <?php else: ?>
+        <form class="search-container" id="search-form">
+            <select id="search-type" class="search-select">
+                <option value="name">商品名で検索</option>
+                <option value="id">商品IDで検索</option>
+            </select>
+            <input type="text" id="search-keyword" class="search-input" placeholder="検索キーワードを入力" autocomplete="off">
+            <button type="submit" class="btn-search">検索</button>
+        </form>
+
         <div class="table-container">
             <table class="items-table">
                 <thead>
@@ -217,5 +226,7 @@ if (!$product) {
         <?php endif; ?>
 
     </div>
+
+    <script src="js/update.js"></script>
 </body>
 </html>
